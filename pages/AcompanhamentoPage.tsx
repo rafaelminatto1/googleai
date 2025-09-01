@@ -1,4 +1,3 @@
-
 // pages/AcompanhamentoPage.tsx
 import React, { useState, useEffect, useCallback } from 'react';
 import PageHeader from '../components/PageHeader';
@@ -24,7 +23,7 @@ type CategorizedPatients = {
     regular: Patient[];
 };
 
-const Section: React.FC<{ title: string; patients: AlertPatient[]; color: string; children: React.ReactNode; onOpenObservationModal: (patient: Patient) => void; onOpenRescheduleModal: (patient: Patient) => void; onOpenAiSuggestion: (patient: AlertPatient) => void; onUpdate: () => void; }> = ({ title, patients, color, children, onOpenObservationModal, onOpenRescheduleModal, onOpenAiSuggestion, onUpdate }) => (
+const Section: React.FC<{ title: string; patients: AlertPatient[]; color: string; children: React.ReactNode; onOpenObservationModal: (patient: Patient) => void; onOpenRescheduleModal: (patient: Patient) => void; onOpenAiSuggestion: (patient: AlertPatient) => void; onUpdate: () => void; onFollowPatient: (patientId: string) => void; }> = ({ title, patients, color, children, onOpenObservationModal, onOpenRescheduleModal, onOpenAiSuggestion, onUpdate, onFollowPatient }) => (
     <div>
         <div className={`flex items-center mb-4 pb-2 border-b-2 ${color}`}>
             <h2 className="text-xl font-bold text-slate-800">{title}</h2>
@@ -32,7 +31,7 @@ const Section: React.FC<{ title: string; patients: AlertPatient[]; color: string
         </div>
         {children}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {patients.map(p => <AlertCard key={p.id} patient={p} onOpenObservationModal={onOpenObservationModal} onOpenRescheduleModal={onOpenRescheduleModal} onOpenAiSuggestion={onOpenAiSuggestion} onUpdate={onUpdate} />)}
+            {patients.map(p => <AlertCard key={p.id} patient={p} onOpenObservationModal={onOpenObservationModal} onOpenRescheduleModal={onOpenRescheduleModal} onOpenAiSuggestion={onOpenAiSuggestion} onUpdate={onUpdate} onFollow={onFollowPatient} />)}
         </div>
     </div>
 );
@@ -106,6 +105,17 @@ const AcompanhamentoPage: React.FC = () => {
         refetchDataContext();
     };
 
+    const handleFollowPatient = async (patientId: string) => {
+        try {
+            await patientService.toggleFollowUp(patientId);
+            showToast('Paciente agora está sendo seguido e foi removido dos alertas.', 'success');
+            fetchData();
+            refetchDataContext();
+        } catch (error) {
+            showToast('Falha ao seguir o paciente.', 'error');
+        }
+    };
+
     const handleOpenObservationModal = (patient: Patient) => setObservationModal({ isOpen: true, patient });
     const handleOpenRescheduleModal = (patient: Patient) => setRescheduleModal({ isOpen: true, patient });
     const handleOpenAiSuggestionModal = (patient: AlertPatient) => setAiSuggestionModal({ isOpen: true, patient });
@@ -159,17 +169,17 @@ const AcompanhamentoPage: React.FC = () => {
             ) : (
                 <div className="space-y-10">
                     {categorizedPatients?.abandonment && categorizedPatients.abandonment.length > 0 && (
-                        <Section title="Abandono de Tratamento" patients={categorizedPatients.abandonment} color="border-red-500" onUpdate={handleUpdate} onOpenObservationModal={handleOpenObservationModal} onOpenRescheduleModal={handleOpenRescheduleModal} onOpenAiSuggestion={handleOpenAiSuggestionModal}>
+                        <Section title="Abandono de Tratamento" patients={categorizedPatients.abandonment} color="border-red-500" onUpdate={handleUpdate} onOpenObservationModal={handleOpenObservationModal} onOpenRescheduleModal={handleOpenRescheduleModal} onOpenAiSuggestion={handleOpenAiSuggestionModal} onFollowPatient={handleFollowPatient}>
                              <p className="text-sm text-slate-600 mb-4 -mt-3">Pacientes com status "Ativo", última visita há mais de 7 dias e sem agendamentos futuros. Ação imediata recomendada.</p>
                         </Section>
                     )}
                      {categorizedPatients?.highRisk && categorizedPatients.highRisk.length > 0 && (
-                        <Section title="Risco Elevado" patients={categorizedPatients.highRisk} color="border-amber-500" onUpdate={handleUpdate} onOpenObservationModal={handleOpenObservationModal} onOpenRescheduleModal={handleOpenRescheduleModal} onOpenAiSuggestion={handleOpenAiSuggestionModal}>
+                        <Section title="Risco Elevado" patients={categorizedPatients.highRisk} color="border-amber-500" onUpdate={handleUpdate} onOpenObservationModal={handleOpenObservationModal} onOpenRescheduleModal={handleOpenRescheduleModal} onOpenAiSuggestion={handleOpenAiSuggestionModal} onFollowPatient={handleFollowPatient}>
                              <p className="text-sm text-slate-600 mb-4 -mt-3">Pacientes com faltas consecutivas ou que ultrapassaram a data prevista de alta sem finalizar o tratamento.</p>
                         </Section>
                     )}
                      {categorizedPatients?.attention && categorizedPatients.attention.length > 0 && (
-                        <Section title="Pontos de Atenção" patients={categorizedPatients.attention} color="border-sky-500" onUpdate={handleUpdate} onOpenObservationModal={handleOpenObservationModal} onOpenRescheduleModal={handleOpenRescheduleModal} onOpenAiSuggestion={handleOpenAiSuggestionModal}>
+                        <Section title="Pontos de Atenção" patients={categorizedPatients.attention} color="border-sky-500" onUpdate={handleUpdate} onOpenObservationModal={handleOpenObservationModal} onOpenRescheduleModal={handleOpenRescheduleModal} onOpenAiSuggestion={handleOpenAiSuggestionModal} onFollowPatient={handleFollowPatient}>
                              <p className="text-sm text-slate-600 mb-4 -mt-3">Pacientes com boa evolução e próximos da data de alta. Ideal para planejar os próximos passos.</p>
                         </Section>
                     )}

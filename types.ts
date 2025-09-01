@@ -115,6 +115,7 @@ export interface Patient {
   trackedMetrics?: TrackedMetric[];
   communicationLogs?: CommunicationLog[];
   painPoints?: PainPoint[];
+  isFollowed?: boolean;
 }
 
 export type AlertType = 'abandonment' | 'highRisk' | 'attention';

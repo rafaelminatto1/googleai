@@ -7,6 +7,7 @@ import { Plus, Search, Filter, ChevronRight, Users, Loader2 } from 'lucide-react
 import { PatientSummary } from '@/types';
 import PatientFormModal from './PatientFormModal'; // Assuming migration
 import { useDebounce } from '@/hooks/useDebounce'; // Assuming migration
+import { Button } from '@/components/ui/Button';
 
 interface PatientListClientProps {
   initialData: {
@@ -113,12 +114,10 @@ export default function PatientListClient({ initialData }: PatientListClientProp
               <option value="Discharged">Alta</option>
             </select>
           </div>
-           <button 
-                onClick={() => setIsModalOpen(true)}
-                className="inline-flex items-center justify-center rounded-lg border border-transparent bg-sky-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-600">
+           <Button onClick={() => setIsModalOpen(true)}>
                 <Plus className="-ml-1 mr-2 h-5 w-5" />
                 Novo Paciente
-            </button>
+            </Button>
       </div>
       
       <div className="space-y-4">

@@ -62,6 +62,7 @@ export const mockPatients: Patient[] = [
     avatarUrl: 'https://picsum.photos/id/1027/200/200',
     consentGiven: true,
     whatsappConsent: 'opt-in',
+    isFollowed: false,
     allergies: 'Alergia a Dipirona.',
     medicalAlerts: 'Paciente com histórico de hipertensão. Monitorar pressão arterial antes e após as sessões.',
     surgeries: [
@@ -119,6 +120,7 @@ export const mockPatients: Patient[] = [
     avatarUrl: 'https://picsum.photos/id/1005/200/200',
     consentGiven: true,
     whatsappConsent: 'opt-in',
+    isFollowed: false,
     allergies: 'Nenhuma conhecida.',
   },
   {
@@ -137,6 +139,7 @@ export const mockPatients: Patient[] = [
     avatarUrl: 'https://picsum.photos/id/1011/200/200',
     consentGiven: true,
     whatsappConsent: 'opt-out',
+    isFollowed: false,
   },
   {
     id: '4',
@@ -154,6 +157,7 @@ export const mockPatients: Patient[] = [
     avatarUrl: 'https://picsum.photos/id/1012/200/200',
     consentGiven: false,
     whatsappConsent: 'opt-out',
+    isFollowed: false,
     medicalAlerts: 'Uso de marca-passo. Evitar uso de TENS na região torácica.',
   },
   {
@@ -172,6 +176,7 @@ export const mockPatients: Patient[] = [
     avatarUrl: 'https://picsum.photos/id/1015/200/200',
     consentGiven: true,
     whatsappConsent: 'opt-in',
+    isFollowed: false,
     conditions: [{ name: 'Fascite Plantar Crônica', date: '2024-06-20' }],
   },
   {
@@ -190,6 +195,7 @@ export const mockPatients: Patient[] = [
     avatarUrl: 'https://picsum.photos/id/1016/200/200',
     consentGiven: true,
     whatsappConsent: 'opt-in',
+    isFollowed: false,
     conditions: [{ name: 'Cervicalgia por tensão postural', date: '2024-06-18' }],
     medicalAlerts: 'Trabalha em escritório, muitas horas sentada.',
   },
@@ -209,6 +215,7 @@ export const mockPatients: Patient[] = [
     avatarUrl: 'https://picsum.photos/id/1018/200/200',
     consentGiven: true,
     whatsappConsent: 'opt-out',
+    isFollowed: false,
     surgeries: [{ name: 'Artroplastia Total de Quadril Esquerdo', date: '2024-04-30' }],
     conditions: [{ name: 'Pós-operatório de ATQ E', date: '2024-05-15' }],
   },
@@ -228,6 +235,7 @@ export const mockPatients: Patient[] = [
     avatarUrl: 'https://picsum.photos/id/1025/200/200',
     consentGiven: true,
     whatsappConsent: 'opt-in',
+    isFollowed: false,
     surgeries: [{ name: 'Reconstrução de Ligamento Cruzado Anterior (LCA) D', date: '2024-02-15' }],
     conditions: [{ name: 'Pós-operatório de LCA D - Retorno ao esporte', date: '2024-03-10' }],
   },

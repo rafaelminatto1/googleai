@@ -1,4 +1,3 @@
-
 // services/acompanhamentoService.ts
 import { Patient, Appointment, AppointmentStatus, AlertPatient } from '../types';
 import { mockPatients } from '../data/mockData';
@@ -43,7 +42,7 @@ export const getCategorizedPatients = async (
     const treatmentPlans = new Map<string, any>();
 
     for (const patient of allPatients) {
-        if (patient.status !== 'Active') continue;
+        if (patient.status !== 'Active' || patient.isFollowed) continue;
 
         const patientAppointments = allAppointments.filter(app => app.patientId === patient.id)
             .sort((a, b) => b.startTime.getTime() - a.startTime.getTime());
@@ -99,7 +98,7 @@ export const getCategorizedPatients = async (
     
     // 4. Regular Patients (everyone else active)
     allPatients.forEach(patient => {
-        if (patient.status === 'Active' && !patientIdsInAlerts.has(patient.id)) {
+        if (patient.status === 'Active' && !patientIdsInAlerts.has(patient.id) && !patient.isFollowed) {
             categorized.regular.push(patient);
         }
     });

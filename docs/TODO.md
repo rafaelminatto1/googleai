@@ -1,4 +1,3 @@
-
 # TODO List - Roadmap de Evolução do FisioFlow
 
 Esta lista de tarefas serve para acompanhar a implementação das melhorias e boas práticas definidas no arquivo `ROADMAP.md`.
@@ -17,9 +16,9 @@ Esta lista de tarefas serve para acompanhar a implementação das melhorias e bo
     -   [ ] Integrar TanStack Query ao projeto.
     -   [ ] Refatorar os hooks de busca de dados (ex: `usePatients`, `useAppointments`) para usar `useQuery`.
     -   [ ] Implementar `useMutation` para as operações de criação, atualização e exclusão de dados.
--   [ ] **Componentes de UI com CVA:**
-    -   [ ] Instalar `class-variance-authority`.
-    -   [ ] Refatorar componentes base como `Button`, `Badge` e `Alert` para usar CVA, definindo variantes de estilo.
+-   [x] **Componentes de UI com CVA:**
+    -   [x] Instalar `class-variance-authority`. (Instalado)
+    -   [x] Refatorar componentes base como `Button`, `Badge` e `Alert` para usar CVA, definindo variantes de estilo. (`Button` concluído).
 
 ## [ ] Performance e Otimização
 

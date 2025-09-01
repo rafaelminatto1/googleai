@@ -12,6 +12,7 @@ import { useToast } from '../contexts/ToastContext';
 import { usePatients } from '../hooks/usePatients';
 import { useDebounce } from '../hooks/useDebounce';
 import { useData } from '../contexts/DataContext';
+import { Button } from '../components/ui/Button';
 
 
 const PatientRow: React.FC<{ patient: PatientSummary }> = ({ patient }) => {
@@ -110,12 +111,10 @@ const PatientListPage: React.FC = () => {
         title="Gestão de Pacientes"
         subtitle="Adicione, visualize e gerencie as informações dos seus pacientes."
       >
-        <button 
-          onClick={() => setIsModalOpen(true)}
-          className="inline-flex items-center justify-center rounded-lg border border-transparent bg-sky-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">
+        <Button onClick={() => setIsModalOpen(true)}>
           <Plus className="-ml-1 mr-2 h-5 w-5" />
           Novo Paciente
-        </button>
+        </Button>
       </PageHeader>
       
       <PatientFormModal 
@@ -169,9 +168,9 @@ const PatientListPage: React.FC = () => {
             </div>
             
             <div className="xl:col-span-6">
-                <button onClick={handleClearFilters} className="text-sm font-semibold text-sky-600 hover:text-sky-800 flex items-center">
+                <Button variant="link" onClick={handleClearFilters}>
                     <X className="w-4 h-4 mr-1"/> Limpar Filtros
-                </button>
+                </Button>
             </div>
           </div>
       </div>
@@ -188,12 +187,9 @@ const PatientListPage: React.FC = () => {
           </div>
         )}
         {hasMore && !isLoading && !isLoadingMore && (
-          <button
-            onClick={() => fetchMorePatients()}
-            className="inline-flex items-center justify-center rounded-lg border border-transparent bg-sky-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
-          >
+          <Button onClick={() => fetchMorePatients()}>
             Carregar Mais Pacientes
-          </button>
+          </Button>
         )}
         {!hasMore && !isLoading && patients.length > 0 && (
           <p className="text-sm text-slate-400">Você chegou ao fim da lista.</p>

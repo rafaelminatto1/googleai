@@ -1,13 +1,10 @@
-
-
-
 // components/acompanhamento/AlertCard.tsx
 'use client';
 import React, { useMemo } from 'react';
 // FIX: Use namespace import for react-router-dom to fix module resolution issues.
 import * as ReactRouterDOM from 'react-router-dom';
 import { Patient, AppointmentStatus, AlertPatient } from '../../types';
-import { Phone, MessageSquare, CalendarPlus, StickyNote, CheckCircle, XCircle, BrainCircuit, AlertTriangle } from 'lucide-react';
+import { Phone, MessageSquare, CalendarPlus, StickyNote, CheckCircle, XCircle, BrainCircuit, AlertTriangle, Bookmark } from 'lucide-react';
 import { useData } from '../../contexts/DataContext';
 import { useToast } from '../../contexts/ToastContext';
 import { useAuth } from '../../contexts/AuthContext';
@@ -19,9 +16,10 @@ interface AlertCardProps {
     onOpenRescheduleModal: (patient: Patient) => void;
     onOpenAiSuggestion: (patient: AlertPatient) => void;
     onUpdate: () => void;
+    onFollow: (patientId: string) => void;
 }
 
-const AlertCard: React.FC<AlertCardProps> = ({ patient, onOpenObservationModal, onOpenRescheduleModal, onOpenAiSuggestion, onUpdate }) => {
+const AlertCard: React.FC<AlertCardProps> = ({ patient, onOpenObservationModal, onOpenRescheduleModal, onOpenAiSuggestion, onUpdate, onFollow }) => {
     const { appointments } = useData();
     const { showToast } = useToast();
     const { user } = useAuth();
@@ -58,6 +56,10 @@ const AlertCard: React.FC<AlertCardProps> = ({ patient, onOpenObservationModal, 
         } catch (error) {
             showToast('Falha ao registrar contato.', 'error');
         }
+    };
+
+    const handleFollowClick = () => {
+        onFollow(patient.id);
     };
     
     const typeInfo = {
@@ -99,25 +101,29 @@ const AlertCard: React.FC<AlertCardProps> = ({ patient, onOpenObservationModal, 
             </div>
 
             <div className="bg-slate-50 p-2 flex justify-around items-center border-t mt-auto">
-                <button onClick={() => onOpenAiSuggestion(patient)} title="Sugestão de Contato com IA" className="flex flex-col items-center text-xs text-slate-600 hover:text-teal-600 p-1 rounded-md w-1/5">
+                <button onClick={() => onOpenAiSuggestion(patient)} title="Sugestão de Contato com IA" className="flex flex-col items-center text-xs text-slate-600 hover:text-teal-600 p-1 rounded-md">
                     <BrainCircuit size={20} />
                     <span>IA</span>
                 </button>
-                <a href={`https://wa.me/${patient.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" onClick={() => handleLogContact('WhatsApp')} title="Enviar WhatsApp" className="flex flex-col items-center text-xs text-slate-600 hover:text-green-600 p-1 rounded-md w-1/5">
+                <a href={`https://wa.me/${patient.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" onClick={() => handleLogContact('WhatsApp')} title="Enviar WhatsApp" className="flex flex-col items-center text-xs text-slate-600 hover:text-green-600 p-1 rounded-md">
                     <MessageSquare size={20} />
                     <span>Chat</span>
                 </a>
-                 <button onClick={() => onOpenRescheduleModal(patient)} title="Remarcar Consulta" className="flex flex-col items-center text-xs text-slate-600 hover:text-sky-600 p-1 rounded-md w-1/5">
+                 <button onClick={() => onOpenRescheduleModal(patient)} title="Remarcar Consulta" className="flex flex-col items-center text-xs text-slate-600 hover:text-sky-600 p-1 rounded-md">
                     <CalendarPlus size={20} />
                     <span>Remarcar</span>
                 </button>
-                 <button onClick={() => handleLogContact('Ligação')} title="Registrar Ligação" className="flex flex-col items-center text-xs text-slate-600 hover:text-purple-600 p-1 rounded-md w-1/5">
+                 <button onClick={() => handleLogContact('Ligação')} title="Registrar Ligação" className="flex flex-col items-center text-xs text-slate-600 hover:text-purple-600 p-1 rounded-md">
                     <Phone size={20} />
                     <span>Ligação</span>
                 </button>
-                 <button onClick={() => onOpenObservationModal(patient)} title="Adicionar Observação" className="flex flex-col items-center text-xs text-slate-600 hover:text-amber-600 p-1 rounded-md w-1/5">
+                 <button onClick={() => onOpenObservationModal(patient)} title="Adicionar Observação" className="flex flex-col items-center text-xs text-slate-600 hover:text-amber-600 p-1 rounded-md">
                     <StickyNote size={20} />
                     <span>Nota</span>
+                </button>
+                <button onClick={handleFollowClick} title="Seguir Paciente (remover dos alertas)" className="flex flex-col items-center text-xs text-slate-600 hover:text-indigo-600 p-1 rounded-md">
+                    <Bookmark size={20} />
+                    <span>Seguir</span>
                 </button>
             </div>
         </div>

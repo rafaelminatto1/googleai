@@ -236,3 +236,21 @@ export const savePainPoints = async (patientId: string, painPoints: PainPoint[])
     
     return updatedPatient;
 };
+
+export const toggleFollowUp = async (patientId: string): Promise<Patient> => {
+    await delay(200);
+    const patient = db.getPatientById(patientId);
+    if (!patient) {
+        throw new Error('Paciente não encontrado.');
+    }
+    
+    const updatedPatient = {
+        ...patient,
+        isFollowed: true,
+    };
+    
+    db.updatePatient(updatedPatient);
+    eventService.emit('patients:changed');
+    
+    return updatedPatient;
+};
